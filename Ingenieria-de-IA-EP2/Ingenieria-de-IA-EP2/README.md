@@ -84,10 +84,19 @@ sequenceDiagram
     API-->>U: respuesta + trazas
 ```
 
-## 🔐 Seguridad
+##  Seguridad
 - Sin tokens hardcodeados.
 - Sanitización de respuestas ante posibles datos sensibles.
 - Derivación cuando no hay contexto suficiente o hay riesgo.
 
-## 🧪 Prueba rápida
+## Prueba rápida
 Usa `tests/smoke.http` con una extensión REST Client o copia los curl del README.
+
+
+## Autoría
+
+Bryan Raúl Saavedra Sigüenza
+Estudiante de Ingeniería en Informática – Duoc UC
+Asignatura: ISY0101 – Ingeniería de Inteligencia Artificial
+Sección: 002D
+

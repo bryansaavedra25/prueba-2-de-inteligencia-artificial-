@@ -1,14 +1,14 @@
-# 🤖 Ingeniería de IA – Agente RAG EP2 (ISY0101)
+#  Ingeniería de IA – Agente RAG EP2 (ISY0101)
 
 Este repositorio contiene el **agente funcional** para la Evaluación Parcial N°2. Integra **herramientas** (consulta, escritura y razonamiento), **memoria** (corto y largo plazo), **planificación** y **toma de decisiones adaptativa**.
 
-## 🚀 Stack
+## Stack
 - FastAPI + Uvicorn
 - LangChain (RAG con FAISS + HuggingFace Embeddings)
 - OpenAI Chat API (ChatOpenAI)
 - Python 3.10+
 
-## 📦 Instalación
+## Instalación
 ```bash
 pip install -r requirements.txt
 ```

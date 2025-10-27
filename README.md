@@ -10,11 +10,11 @@ Su propósito es asistir al Banco Andino respondiendo consultas comunes basadas 
 
 Las tres herramientas principales son:
 
-🔍 search_docs → Recupera información semántica desde el índice FAISS.
+ search_docs → Recupera información semántica desde el índice FAISS.
 
-🧠 reason_policy → Evalúa si la pregunta puede responderse o si debe derivarse.
+ reason_policy → Evalúa si la pregunta puede responderse o si debe derivarse.
 
-📝 write_note → Registra notas y evidencias de interacción en formato JSONL.
+ write_note → Registra notas y evidencias de interacción en formato JSONL.
 
 Cada herramienta funciona de forma autónoma, pero orquestada dentro del flujo del agente.
 

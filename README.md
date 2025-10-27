@@ -1,116 +1,79 @@
 Ingeniería de Inteligencia Artificial – EP2
 Agente Inteligente RAG con Memoria, Planificación y Toma de Decisiones – Banco Andino
-🧩 A. Diseño e Implementación del Agente (IE1, IE2)
+A. Diseño e Implementación del Agente (IE1, IE2)
 
-En esta segunda entrega (EP2) desarrollé un agente funcional completo, mejorando la versión inicial del proyecto (EP1).
-El nuevo sistema integra herramientas de consulta, escritura y razonamiento dentro de un flujo automatizado que replica un entorno organizacional.
+En esta segunda evaluación desarrollé un agente inteligente funcional, mejorando la base del proyecto presentado en la Prueba 1.
+El objetivo fue construir un sistema capaz de consultar información, razonar sobre ella y registrar resultados, simulando el comportamiento de un asistente interno del Banco Andino.
 
-El agente fue construido con FastAPI, LangChain, FAISS y HuggingFace Embeddings, integrados de forma modular para asegurar escalabilidad y compatibilidad técnica.
-Su propósito es asistir al Banco Andino respondiendo consultas comunes basadas en la normativa CMF y los documentos internos del banco.
+El agente fue implementado utilizando FastAPI, LangChain, FAISS y HuggingFace Embeddings, integrados de forma modular para facilitar su mantenimiento y escalabilidad.
+Su función principal es responder preguntas de clientes sobre productos financieros, basándose en documentos internos del banco y normativa de la CMF.
 
-Las tres herramientas principales son:
+El sistema cuenta con tres herramientas principales que permiten su funcionamiento:
 
- search_docs → Recupera información semántica desde el índice FAISS.
+search_docs → Recupera información semántica desde el índice FAISS.
 
- reason_policy → Evalúa si la pregunta puede responderse o si debe derivarse.
+reason_policy → Evalúa si la consulta puede responderse o si debe derivarse a un ejecutivo.
 
- write_note → Registra notas y evidencias de interacción en formato JSONL.
+write_note → Registra notas y evidencias de las interacciones en formato JSONL.
 
-Cada herramienta funciona de forma autónoma, pero orquestada dentro del flujo del agente.
+Cada herramienta actúa de manera independiente, pero se integran en un flujo común gestionado por el agente.
 
-💾 B. Configuración de Memoria y Recuperación de Contexto (IE3, IE4)
+B. Configuración de Memoria y Recuperación de Contexto (IE3, IE4)
 
-Para esta etapa configuré dos tipos de memoria:
+El sistema utiliza dos niveles de memoria para garantizar coherencia en las respuestas y continuidad en la conversación:
 
-🧠 Memoria corta (ShortMemory): guarda las últimas 10 interacciones entre el usuario y el agente, permitiendo mantener coherencia en conversaciones prolongadas.
+Memoria corta (ShortMemory): almacena las últimas 10 interacciones entre el usuario y el asistente. Esto permite mantener contexto en conversaciones extendidas.
 
-💽 Memoria larga (FAISS): actúa como una base vectorial donde se almacenan embeddings de documentos internos, que permiten recuperación semántica del contexto.
+Memoria larga (FAISS): funciona como una base vectorial donde se guardan los embeddings de los documentos del banco, permitiendo una búsqueda semántica y respuestas fundamentadas en información real.
 
-Gracias a esta estructura, el agente puede recordar temas tratados previamente y ofrecer respuestas consistentes, incluso en flujos prolongados.
+Gracias a esta estructura, el agente no solo responde preguntas puntuales, sino que también recuerda consultas anteriores y mantiene consistencia en los diálogos.
 
-🧭 C. Planificación y Toma de Decisiones (IE5, IE6)
+C. Planificación y Toma de Decisiones (IE5, IE6)
 
-Agregué una clase llamada TaskPlanner, que organiza las etapas del flujo de ejecución de manera ordenada y priorizada.
-La secuencia del plan es la siguiente:
+Se implementó una clase llamada TaskPlanner, encargada de organizar las etapas de ejecución del agente de manera ordenada y priorizada.
+El flujo de planificación definido es el siguiente:
 
 plan = ["seguridad", "recuperar_ctx", "razonar", "responder", "registrar"]
 
 
-Esto permite que el agente planifique sus acciones antes de responder.
-Por ejemplo:
+Con este esquema, el agente primero evalúa si la pregunta contiene datos sensibles, luego busca contexto relevante en FAISS, aplica razonamiento mediante reason_policy, genera la respuesta y finalmente registra la interacción con write_note.
 
-Primero revisa si la consulta contiene datos sensibles.
+Este mecanismo demuestra la capacidad de toma de decisiones adaptativa, ya que el comportamiento del agente varía según la naturaleza de la consulta o la información disponible.
 
-Luego recupera el contexto desde FAISS.
+D. Documentación Técnica y Orquestación (IE7, IE8)
 
-Aplica razonamiento con reason_policy.
+Para representar gráficamente la estructura interna del sistema, se elaboraron diagramas técnicos que muestran la comunicación entre los módulos principales.
+Estos diagramas se encuentran en la carpeta /docs/ y reflejan la orquestación general del agente y el flujo de ejecución de tareas.
 
-Genera la respuesta solo si las condiciones son seguras.
+Diagrama de Orquestación
 
-Finalmente, registra la evidencia con write_note.
+Flujo de Ejecución del Agente
 
-Este proceso demuestra toma de decisiones adaptativa, ya que el agente puede modificar su comportamiento según el tipo de consulta o el contexto.
+Los diagramas permiten visualizar la interacción entre FastAPI, el planificador de tareas, la memoria, y el modelo LLM, cumpliendo con la documentación técnica exigida por la pauta.
 
-📘 D. Documentación Técnica y Orquestación (IE7, IE8)
+ E. Redacción Técnica (IE10)
 
-Para documentar el diseño y la orquestación del sistema, incluí diagramas Mermaid dentro de la carpeta /docs.
-Estos diagramas muestran cómo se comunican los módulos principales:
+El código fue desarrollado y documentado con lenguaje técnico claro y preciso, utilizando nombres descriptivos para las clases y funciones.
+Se mantuvo una redacción coherente en el README y en los comentarios del código, con un estilo formal y profesional.
+Además, se siguieron buenas prácticas de seguridad, evitando incluir claves o tokens directamente en el repositorio.
 
-🔹 Diagrama de Orquestación
-graph TD
-    U[Usuario] --> A[FastAPI /consultar]
-    A --> P[TaskPlanner]
-    P --> S[Seguridad]
-    S --> C{¿Contiene datos sensibles?}
-    C -- Sí --> D[Derivar a ejecutivo]
-    C -- No --> R[VectorStore FAISS]
-    R --> L[LLM (ChatOpenAI)]
-    L --> W[Registrar nota JSONL]
-    L --> O[Enviar respuesta al usuario]
+ F. Ejemplos de Flujo y Evidencias (IE9)
 
-🔹 Flujo de Tareas del Agente
-sequenceDiagram
-    participant U as Usuario
-    participant API as FastAPI
-    participant PL as Planner
-    participant VS as VectorStore
-    participant LLM as LLM RAG
-    U->>API: POST /consultar (pregunta)
-    API->>PL: plan(pregunta)
-    PL->>API: [seguridad, recuperar_ctx, razonar, responder, registrar]
-    API->>VS: tool_search_docs()
-    API->>API: tool_reason_policy()
-    API->>LLM: RetrievalQA(query)
-    LLM-->>API: Respuesta fundamentada + fuentes
-    API->>API: tool_write_note()
-    API-->>U: respuesta + trazas + evidencias
-
-
-Estos diagramas explican claramente la interacción entre FastAPI, el planificador, la memoria y el modelo LLM, cumpliendo con el requisito de documentar la orquestación de los componentes.
-
-🧩 E. Redacción Técnica (IE10)
-
-Todo el proyecto fue documentado con lenguaje técnico claro y coherente, usando nombres descriptivos en las clases y funciones.
-Los comentarios en el código explican cada paso del flujo del agente, lo que facilita la comprensión por parte de evaluadores o compañeros de equipo.
-Además, se respetaron las buenas prácticas de seguridad, evitando publicar tokens o claves dentro del código.
-
-🔄 F. Ejemplos de Flujo y Evidencias (IE9)
-
-El proyecto incluye endpoints funcionales que permiten probar directamente las capacidades del agente:
+El sistema cuenta con endpoints funcionales que permiten probar su comportamiento de forma directa:
 
 Método	Ruta	Descripción
-GET	/salud	Verifica si el agente está inicializado correctamente.
-POST	/consultar	Realiza una consulta y ejecuta el flujo completo del agente.
-GET	/memoria/corto	Muestra las últimas interacciones almacenadas.
-POST	/nota	Registra manualmente una nota operativa.
- 
-En la carpeta /data se generan automáticamente los archivos:
+GET	/salud	Verifica el estado del sistema.
+POST	/consultar	Realiza una consulta y ejecuta todo el flujo del agente.
+GET	/memoria/corto	Muestra las últimas interacciones registradas.
+POST	/nota	Guarda una nota o evidencia de interacción.
 
-notas_operacionales.jsonl → guarda las notas escritas por el agente.
+Durante las pruebas, el sistema genera automáticamente archivos en la carpeta /data:
 
-traces_ep2.log → registra las trazas del proceso interno (planificación y razonamiento).
+notas_operacionales.jsonl → Guarda las notas creadas por el agente.
 
-Estos elementos sirven como evidencia del comportamiento real y adaptativo del sistema.
+traces_ep2.log → Registra las trazas internas del flujo y las decisiones tomadas.
+
+Estas evidencias permiten validar el comportamiento adaptativo y la trazabilidad del agente.
 
 G. Referencias Técnicas (APA)
 

@@ -95,7 +95,7 @@ Usa `tests/smoke.http` con una extensión REST Client o copia los curl del READM
 
 ## Autoría
 
-Bryan Raúl Saavedra Sigüenza
+Bryan  Saavedra 
 Estudiante de Ingeniería en Informática – Duoc UC
 Asignatura: ISY0101 – Ingeniería de Inteligencia Artificial
 Sección: 002D

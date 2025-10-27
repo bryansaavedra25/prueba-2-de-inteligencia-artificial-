@@ -1,9 +1,4 @@
-# app_ep2.py
-# ------------------------------------------------------------------------------------
-# Banco Andino – Agente RAG con Memoria + Planificación + Toma de Decisiones (EP2)
-# Cumple IE1–IE10 (herramientas, memoria, recuperación de contexto, planner, decisiones,
-# README/diagramas y evidencias), según pauta EP2 ISY0101. 
-# ------------------------------------------------------------------------------------
+
 from __future__ import annotations
 from typing import List, Optional, Dict, Any, Literal, Tuple
 from pydantic import BaseModel
